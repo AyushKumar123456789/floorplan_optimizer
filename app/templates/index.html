@@ -1,0 +1,138 @@
+<!-- app/templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Floorplan Optimizer</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container my-5">
+      <h1 class="text-center">Floorplan Optimizer</h1>
+      <form id="optimization-form">
+        <div class="form-group">
+          <label for="num_blocks">Number of Blocks</label>
+          <input
+            type="number"
+            class="form-control"
+            id="num_blocks"
+            name="num_blocks"
+            min="1"
+            value="20"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="layers">Number of Layers</label>
+          <input
+            type="number"
+            class="form-control"
+            id="layers"
+            name="layers"
+            min="1"
+            value="3"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="connections_per_block">Connections per Block</label>
+          <input
+            type="number"
+            class="form-control"
+            id="connections_per_block"
+            name="connections_per_block"
+            min="1"
+            value="3"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="floorplan_size">Floorplan Size</label>
+          <input
+            type="number"
+            class="form-control"
+            id="floorplan_size"
+            name="floorplan_size"
+            min="10"
+            value="100"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Optimize</button>
+      </form>
+
+      <div id="loading" class="text-center my-5" style="display: none">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Processing...</span>
+        </div>
+        <p>Optimizing floorplan...</p>
+      </div>
+
+      <div id="results" style="display: none">
+        <h2>Optimization Results</h2>
+        <p>
+          <strong>Initial Energy:</strong> <span id="initial_energy"></span>
+        </p>
+        <p>
+          <strong>Optimized Energy:</strong> <span id="optimized_energy"></span>
+        </p>
+        <p>
+          <strong>Area Reduction:</strong> <span id="area_reduction"></span>%
+        </p>
+        <p>
+          <strong>Interconnect Reduction:</strong>
+          <span id="interconnect_reduction"></span>%
+        </p>
+        <p>
+          <strong>Power Reduction:</strong> <span id="power_reduction"></span>%
+        </p>
+        <p>
+          <strong>Initial Max Temperature:</strong>
+          <span id="initial_temp"></span>°C
+        </p>
+        <p>
+          <strong>Optimized Max Temperature:</strong>
+          <span id="optimized_temp"></span>°C
+        </p>
+        <p>
+          <strong>Execution Time:</strong>
+          <span id="execution_time"></span> seconds
+        </p>
+        <a href="#" id="download_csv" class="btn btn-success"
+          >Download Metrics CSV</a
+        >
+
+        <h3 class="mt-4">Initial Floorplan</h3>
+        <div id="initial_images" class="row"></div>
+
+        <h3 class="mt-4">Optimized Floorplan</h3>
+        <div id="optimized_images" class="row"></div>
+
+        <h3 class="mt-4">Historical Metrics</h3>
+        <div id="csv_table" class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead id="csv_table_head">
+              <!-- Headers will be populated dynamically -->
+            </thead>
+            <tbody id="csv_table_body">
+              <!-- Data will be populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="mt-4">Latest Initial Block Placements</h3>
+        <ul id="initial_block_placements" class="list-group"></ul>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
